@@ -1,0 +1,36 @@
+Perceptron first try
+
+function [ w iterations  ] = perceptron_learn( data_in )
+%perceptron_learn Run PLA on the input data
+%   Inputs: data_in: Assumed to be a matrix with each row representing an
+%                    (x,y) pair, with the x vector augmented with an
+%                    initial 1, and the label (y) in the last column
+%   Outputs: w: A weight vector (should linearly separate the data if it is
+%               linearly separable)
+%            iterations: The number of iterations the algorithm ran for
+
+w = rand(11, 1);
+w(1) = 0;
+h = zeros(11,1);
+x = data_in(:,1:11);
+x(1,:) = 1;
+y = w'*x;
+
+iterations = 0;
+error = sum(sign(y)~=sign(h'*x));
+while error > 0
+    for i = 1:size(x,2)
+        a = h'*x;
+        if sign(y(i)) ~= sign(a(i))
+            h = h + y(i)*x(:,i);
+            iterations = iterations+1;
+        end
+    end
+    error = sum(sign(y)~=sign(h'*x));
+end
+
+
+
+w = h;
+
+end
